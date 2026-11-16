@@ -21,4 +21,7 @@ const storage = multer.diskStorage({
 	}
 })
 
-module.exports = multer({storage}).single('image')
+// Only accept images: anything else would be served back from /images
+const fileFilter = (req, file, callback) => callback(null, file.mimetype in MIME_TYPE)
+
+module.exports = multer({storage, fileFilter}).single('image')
